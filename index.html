@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>နိုင်ငံသားစိစစ်ရေးကဒ် ရှာဖွေရေးကိရိယာ</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: "Myanmar Text", "Pyidaungsu", sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .search-section {
+            margin-bottom: 30px;
+        }
+        
+        .search-box {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            border-color: #3498db;
+        }
+        
+        button {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .example-tag {
+            padding: 6px 12px;
+            background-color: #ecf0f1;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .example-tag:hover {
+            background-color: #d5dbdb;
+        }
+        
+        .results-section {
+            margin-top: 30px;
+        }
+        
+        .result-card {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+            display: none;
+        }
+        
+        .result-title {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .result-details {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .info-section {
+            background-color: #e8f4fc;
+            border-left: 4px solid #2ecc71;
+            padding: 20px;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .info-title {
+            font-size: 20px;
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            input, button {
+                width: 100%;
+                border-radius: 5px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>နိုင်ငံသားစိစစ်ရေးကဒ် ရှေ့နံပါတ်ရှာဖွေရေးကိရိယာ</h1>
+            <p class="description">ပြည်နယ်/တိုင်း နံပါတ် (၁-၁၄) သို့မဟုတ် မြို့နယ်အတိုကောက်ကို ရိုက်ထည့်ပါ</p>
+        </header>
+        
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="နံပါတ် (၁-၁၄) သို့မဟုတ် အတိုကောက် (ဥပမာ: ၁၂, ကမရ, နိုင်) ရိုက်ပါ...">
+                <button id="searchBtn">ရှာရန်</button>
+            </div>
+            
+            <div class="examples">
+                <span class="example-tag" data-search="12">၁၂ (ရန်ကုန်တိုင်း)</span>
+                <span class="example-tag" data-search="ကမရ">ကမရ (ကမာရွတ်)</span>
+                <span class="example-tag" data-search="နိုင်">နိုင် (နိုင်ငံသား)</span>
+                <span class="example-tag" data-search="5">၅ (စစ်ကိုင်းတိုင်း)</span>
+                <span class="example-tag" data-search="ပခန">ပခန (ပဲခူး)</span>
+            </div>
+        </div>
+        
+        <div class="results-section">
+            <div id="resultCard" class="result-card">
+                <h2 class="result-title" id="resultTitle">ရလဒ်</h2>
+                <p class="result-details" id="resultDetails">ရလဒ်များ ဒီနေရာမှာ ပြပေးပါမည်။</p>
+                <p class="result-details" id="resultCode"></p>
+                <p class="result-details" id="resultLocation"></p>
+                <p class="result-details" id="resultExtra"></p>
+            </div>
+            
+            <div id="infoCard" class="info-section">
+                <h2 class="info-title" id="infoTitle">အချက်အလက်</h2>
+                <p class="result-details" id="infoDetails"></p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>မြန်မာနိုင်ငံ၏ ပြည်နယ်နှင့်တိုင်းဒေသကြီးများအလိုက် နိုင်ငံသားစိစစ်ရေးကဒ်ရှေ့နံပါတ်များ</p>
+        </div>
+    </div>
+
+    <script>
+        // ဒေတာဘေ့စ်
+        const data = {
+            // ပြည်နယ်နှင့်တိုင်းများ
+            states: {
+                "1": "ကချင်ပြည်နယ်",
+                "2": "ကယားပြည်နယ်",
+                "3": "ကရင်ပြည်နယ်",
+                "4": "ချင်းပြည်နယ်",
+                "5": "စစ်ကိုင်းတိုင်းဒေသကြီး",
+                "6": "တနင်္သာရီတိုင်းဒေသကြီး",
+                "7": "ပဲခူးတိုင်းဒေသကြီး",
+                "8": "မကွေးတိုင်းဒေသကြီး",
+                "9": "မန္တလေးတိုင်းဒေသကြီး",
+                "10": "မွန်ပြည်နယ်",
+                "11": "ရခိုင်ပြည်နယ်",
+                "12": "ရန်ကုန်တိုင်းဒေသကြီး",
+                "13": "ရှမ်းပြည်နယ်",
+                "14": "ဧရာဝတီတိုင်းဒေသကြီး",
+                "9N": "နေပြည်တော်"
+            },
+            
+            // မြို့နယ်များ
+            townships: [
+                // ကချင်ပြည်နယ်
+                { code: "မကန(နိုင်)", fullName: "မြစ်ကြီးနားမြို့နယ်", state: "1", district: "မြစ်ကြီးနားခရိုင်" },
+                { code: "ဝမန(နိုင်)", fullName: "ဝိုင်းမော်မြို့နယ်", state: "1", district: "မြစ်ကြီးနားခရိုင်" },
+                { code: "ခဖန(နိုင်)", fullName: "ချီဖွေမြို့နယ်", state: "1", district: "မြစ်ကြီးနားခရိုင်" },
+                { code: "ဆလန(နိုင်)", fullName: "ဆော့လော်မြို့နယ်", state: "1", district: "မြစ်ကြီးနားခရိုင်" },
+                { code: "တနန(နိုင်)", fullName: "တနိုင်းမြို့နယ်", state: "1", district: "မြစ်ကြီးနားခရိုင်" },
+                { code: "အဂယ(နိုင်)", fullName: "အင်ဂျန်းယန်မြို့နယ်", state: "1", district: "မြစ်ကြီးနားခရိုင်" },
+                { code: "မညန(နိုင်)", fullName: "မိုးညှင်းမြို့နယ်", state: "1", district: "မိုးညှင်းခရိုင်" },
+                { code: "မကန(နိုင်)", fullName: "မိုးကောင်းမြို့နယ်", state: "1", district: "မိုးညှင်းခရိုင်" },
+                { code: "ကမန(နိုင်)", fullName: "ဖားကန့်မြို့နယ်", state: "1", district: "မိုးညှင်းခရိုင်" },
+                { code: "ဗမန(နိုင်)", fullName: "ဗန်းမော်မြို့နယ်", state: "1", district: "ဗန်းမော်ခရိုင်" },
+                { code: "ရကန(နိုင်)", fullName: "ရွှေကူမြို့နယ်", state: "1", district: "ဗန်းမော်ခရိုင်" },
+                { code: "မစန(နိုင်)", fullName: "မံစီမြို့နယ်", state: "1", district: "ဗန်းမော်ခရိုင်" },
+                { code: "မမန(နိုင်)", fullName: "မိုးမောက်မြို့နယ်", state: "1", district: "ဗန်းမော်ခရိုင်" },
+                { code: "ပတအ(နိုင်)", fullName: "ပူတာအိုမြို့နယ်", state: "1", district: "ပူတာအိုခရိုင်" },
+                { code: "ဆပဘ(နိုင်)", fullName: "ဆွမ်ပရာဘွမ်မြို့နယ်", state: "1", district: "ပူတာအိုခရိုင်" },
+                { code: "မခဘ(နိုင်)", fullName: "မချမ်းဘောမြို့နယ်", state: "1", district: "ပူတာအိုခရိုင်" },
+                { code: "ခဘဒ(နိုင်)", fullName: "ခေါင်းလန်းဖူးမြို့နယ်", state: "1", district: "ပူတာအိုခရိုင်" },
+                { code: "နမန(နိုင်)", fullName: "နောင်မွန်းမြို့နယ်", state: "1", district: "ပူတာအိုခရိုင်" },
+                
+                // ကယားပြည်နယ်
+                { code: "လကန(နိုင်)", fullName: "လွိုင်ကော်မြို့နယ်", state: "2", district: "လွိုင်ကော်ခရိုင်" },
+                { code: "ဒမဆ(နိုင်)", fullName: "ဒီးမော့ဆိုမြို့နယ်", state: "2", district: "လွိုင်ကော်ခရိုင်" },
+                { code: "ဖရဆ(နိုင်)", fullName: "ဖရူဆိုမြို့နယ်", state: "2", district: "လွိုင်ကော်ခရိုင်" },
+                { code: "ရတန(နိုင်)", fullName: "ရှားတောမြို့နယ်", state: "2", district: "လွိုင်ကော်ခရိုင်" },
+                { code: "ဘလခ(နိုင်)", fullName: "ဘော်လခဲမြို့နယ်", state: "2", district: "ဘော်လခဲခရိုင်" },
+                { code: "မစန(နိုင်)", fullName: "မယ်စဲ့မြို့နယ်", state: "2", district: "ဘော်လခဲခရိုင်" },
+                { code: "ဖဆန(နိုင်)", fullName: "ဖာဆောင်းမြို့နယ်", state: "2", district: "ဘော်လခဲခရိုင်" },
+                
+                // ကရင်ပြည်နယ်
+                { code: "ဘအန(နိုင်)", fullName: "ဘားအံမြို့နယ်", state: "3", district: "ဘားအံခရိုင်" },
+                { code: "လဘန(နိုင်)", fullName: "လှိုင်းဘွဲ့မြို့နယ်", state: "3", district: "ဘားအံခရိုင်" },
+                { code: "သတန(နိုင်)", fullName: "သံတောင်ကြီးမြို့နယ်", state: "3", district: "ဘားအံခရိုင်" },
+                { code: "ကကရ(နိုင်)", fullName: "ကော့ကရိတ်မြို့နယ်", state: "3", district: "ကော့ကရိတ်ခရိုင်" },
+                { code: "ကဆက(နိုင်)", fullName: "ကြာအင်းဆိပ်ကြီးမြို့နယ်", state: "3", district: "ကော့ကရိတ်ခရိုင်" },
+                { code: "မဝတ(နိုင်)", fullName: "မြဝတီမြို့နယ်", state: "3", district: "မြဝတီခရိုင်" },
+                { code: "ဖပန(နိုင်)", fullName: "ဖာပွန်မြို့နယ်", state: "3", district: "ဖာပွန်ခရိုင်" },
+                
+                // ချင်းပြည်နယ်
+                { code: "ဟခန(နိုင်)", fullName: "ဟားခါးမြို့နယ်", state: "4", district: "ဟားခါးခရိုင်" },
+                { code: "ထတလ(နိုင်)", fullName: "ထန်တလန်မြို့နယ်", state: "4", district: "ဟားခါးခရိုင်" },
+                { code: "မတန(နိုင်)", fullName: "မင်းတပ်မြို့နယ်", state: "4", district: "မင်းတပ်ခရိုင်" },
+                { code: "ပလဝ(နိုင်)", fullName: "ပလက်ဝမြို့နယ်", state: "4", district: "မင်းတပ်ခရိုင်" },
+                { code: "မတပ(နိုင်)", fullName: "မတူပီမြို့နယ်", state: "4", district: "မင်းတပ်ခရိုင်" },
+                { code: "ကပလ(နိုင်)", fullName: "ကန်ပက်လက်မြို့နယ်", state: "4", district: "မင်းတပ်ခရိုင်" },
+                { code: "ဖလန(နိုင်)", fullName: "ဖလမ်းမြို့နယ်", state: "4", district: "ဖလမ်းခရိုင်" },
+                { code: "တတန(နိုင်)", fullName: "တီးတိန်မြို့နယ်", state: "4", district: "ဖလမ်းခရိုင်" },
+                { code: "တဇန(နိုင်)", fullName: "တွန်းဇံမြို့နယ်", state: "4", district: "ဖလမ်းခရိုင်" },
+                
+                // စစ်ကိုင်းတိုင်းဒေသကြီး
+                { code: "မရန(နိုင်)", fullName: "မုံရွာမြို့နယ်", state: "5", district: "မုံရွာခရိုင်" },
+                { code: "အရတ(နိုင်)", fullName: "အရာတော်မြို့နယ်", state: "5", district: "မုံရွာခရိုင်" },
+                { code: "ခဥတ(နိုင်)", fullName: "ချောင်းဦးမြို့နယ်", state: "5", district: "မုံရွာခရိုင်" },
+                { code: "ဘတလ(နိုင်)", fullName: "ဘုတလင်မြို့�ယ်", state: "5", district: "မုံရွာခရိုင်" },
+                { code: "စကန(နိုင်)", fullName: "စစ်ကိုင်းမြို့နယ်", state: "5", district: "စစ်ကိုင်းခရိုင်" },
+                { code: "မမန(နိုင်)", fullName: "မြောင်မြို့နယ်", state: "5", district: "စစ်ကိုင်းခရိုင်" },
+                { code: "မမတ(နိုင်)", fullName: "မြင်းမူမြို့နယ်", state: "5", district: "စစ်ကိုင်းခရိုင်" },
+                { code: "ကလထ(နိုင်)", fullName: "ကလေးမြို့နယ်", state: "5", district: "ကလေးခရိုင်" },
+                { code: "ကလဝ(နိုင်)", fullName: "ကလေးဝမြို့နယ်", state: "5", district: "ကလေးခရိုင်" },
+                { code: "မကန(နိုင်)", fullName: "မင်းကင်းမြို့နယ်", state: "5", district: "ကလေးခရိုင်" },
+                { code: "ကသန(နိုင်)", fullName: "ကသာမြို့နယ်", state: "5", district: "ကသာခရိုင်" },
+                { code: "အတန(နိုင်)", fullName: "အင်းတော်မြို့နယ်", state: "5", district: "ကသာခရိုင်" },
+                { code: "ဗမန(နိုင်)", fullName: "ဗန်းမောက်မြို့နယ်", state: "5", district: "ကသာခရိုင်" },
+                { code: "ကလတ(နိုင်)", fullName: "ကောလင်းမြို့နယ်", state: "5", district: "ကသာခရိုင်" },
+                { code: "ပလဘ(နိုင်)", fullName: "ပင်လည်ဘူးမြို့နယ်", state: "5", district: "ကသာခရိုင်" },
+                { code: "ဝသန(နိုင်)", fullName: "ဝန်းသိုမြို့နယ်", state: "5", district: "ကသာခရိုင်" },
+                { code: "ထခန(နိုင်)", fullName: "ထီးချိုင့်မြို့နယ်", state: "5", district: "ကသာခရိုင်" },
+                { code: "ခတန(နိုင်)", fullName: "ခန္တီးမြို့နယ်", state: "5", district: "ခန္တီးခရိုင်" },
+                { code: "ဟမလ(နိုင်)", fullName: "ဟုမ္မလင်းမြို့နယ်", state: "5", district: "ခန္တီးခရိုင်" },
+                { code: "လရန(နိုင်)", fullName: "လေရှီးမြို့နယ်", state: "5", district: "ခန္တီးခရိုင်" },
+                { code: "နယန(နိုင်)", fullName: "နန်းယွန်းမြို့နယ်", state: "5", district: "ခန္တီးခရိုင်" },
+                { code: "လဟန(နိုင်)", fullName: "လဟယ်မြို့နယ်", state: "5", district: "ခန္တီးခရိုင်" },
+                { code: "မလန(နိုင်)", fullName: "မော်လိုက်မြို့နယ်", state: "5", district: "မော်လိုက်ခရိုင်" },
+                { code: "ဖပန(နိုင်)", fullName: "ဖောင်းပြင်မြို့နယ်", state: "5", district: "မော်လိုက်ခရိုင်" },
+                { code: "ယမပ(နိုင်)", fullName: "ယင်းမာပင်မြို့နယ်", state: "5", district: "ယင်းမာပင်ခရိုင်" },
+                { code: "ဆလက(နိုင်)", fullName: "ဆားလင်းကြီးမြို့နယ်", state: "5", district: "ယင်း�မာပင်ခရိုင်" },
+                { code: "ပလန(နိုင်)", fullName: "ပုလဲမြို့နယ်", state: "5", district: "ယင်းမာပင်ခရိုင်" },
+                { code: "ကနန(နိုင်)", fullName: "ကနီမြို့နယ်", state: "5", district: "ယင်းမာပင်ခရိုင်" },
+                { code: "ရဘန(နိုင်)", fullName: "ရွှေဘိုမြို့နယ်", state: "5", district: "ရွှေဘိုခရိုင်" },
+                { code: "ဒပယ(နိုင်)", fullName: "ဒီပဲယင်းမြို့နယ်", state: "5", district: "ရွှေဘိုခရိုင်" },
+                { code: "ကဘလ(နိုင်)", fullName: "ကန့်ဘလူမြို့နယ်", state: "5", district: "ရွှေဘိုခရိုင်" },
+                { code: "ခဥန(နိုင်)", fullName: "ခင်ဦးမြို့နယ်", state: "5", district: "ရွှေဘိုခရိုင်" },
+                { code: "ကလန(နိုင်)", fullName: "ကျွန်းလှမြို့နယ်", state: "5", district: "ရွှေဘိုခရိုင်" },
+                { code: "တဆန(နိုင်)", fullName: "တန့်ဆည်မြို့နယ်", state: "5", district: "ရွှေဘိုခရိုင်" },
+                { code: "ရဥန(နိုင်)", fullName: "ရေဦးမြို့နယ်", state: "5", district: "ရွှေဘိုခရိုင်" },
+                { code: "ဝလန(နိုင်)", fullName: "ဝက်လက်မြို့နယ်", state: "5", district: "ရွှေဘိုခရိုင်" },
+                { code: "တမန(နိုင်)", fullName: "တမူးမြို့နယ်", state: "5", district: "တမူးခရိုင်" },
+                
+                // တနင်္သာရီတိုင်းဒေသကြီး
+                { code: "ထဝန(နိုင်)", fullName: "ထားဝယ်မြို့နယ်", state: "6", district: "ထားဝယ်ခရိုင်" },
+                { code: "လလန(နိုင်)", fullName: "လောင်းလုံမြို့နယ်", state: "6", district: "ထားဝယ်ခရိုင်" },
+                { code: "သရခ(နိုင်)", fullName: "သရက်ချောင်းမြို့နယ်", state: "6", district: "ထားဝယ်ခရိုင်" },
+                { code: "ရဖန(နိုင်)", fullName: "ရေဖြူမြို့နယ်", state: "6", district: "ထားဝယ်ခရိုင်" },
+                { code: "မမန(နိုင်)", fullName: "မြိတ်မြို့နယ်", state: "6", district: "မြိတ်ခရိုင်" },
+                { code: "တသရ(နိုင်)", fullName: "တနင်္သာရီမြို့နယ်", state: "6", district: "မြိတ်ခရိုင်" },
+                { code: "ကစန(နိုင်)", fullName: "ကျွန်းစုမြို့နယ်", state: "6", district: "မြိတ်ခရိုင်" },
+                { code: "ပလန(နိုင်)", fullName: "ပုလောမြို့နယ်", state: "6", district: "မြိတ်ခရိုင်" },
+                { code: "ကသန(နိုင်)", fullName: "ကော့သောင်းမြို့နယ်", state: "6", district: "ကော့သောင်းခရိုင်" },
+                { code: "ဘပန(နိုင်)", fullName: "ဘုတ်ပြင်းမြို့နယ်", state: "6", district: "ကော့သောင်းခရိုင်" },
+                
+                // ပဲခူးတိုင်းဒေသကြီး
+                { code: "ပခန(နိုင်)", fullName: "ပဲခူးမြို့နယ်", state: "7", district: "ပဲခူးခရိုင်" },
+                { code: "ဒဥန(နိုင်)", fullName: "ဒိုက်ဦးမြို့နယ်", state: "7", district: "ပဲခူးခရိုင်" },
+                { code: "ကတခ(နိုင်)", fullName: "ကျောက်တံခါးမြို့နယ်", state: "7", district: "ပဲခူးခရိုင်" },
+                { code: "ကဝန(နိုင်)", fullName: "ကဝမြို့နယ်", state: "7", district: "ပဲခူးခရိုင်" },
+                { code: "ညလပ(နိုင်)", fullName: "ညောင်လေးပင်မြို့နယ်", state: "7", district: "ပဲခူးခရိုင်" },
+                { code: "ရကန(နိုင်)", fullName: "ရွှေကျင်မြို့နယ်", state: "7", district: "ပဲခူးခရိုင်" },
+                { code: "သနပ(နိုင်)", fullName: "သနပ်ပင်မြို့နယ်", state: "7", district: "ပဲခူးခရိုင်" },
+                { code: "ဝမန(နိုင်)", fullName: "ဝေါမြို့နယ်", state: "7", district: "ပဲခူးခရိုင်" },
+                { code: "ပမန(နိုင်)", fullName: "ပြည်မြို့နယ်", state: "7", district: "ပြည်ခရိုင်" },
+                { code: "ပတန(နိုင်)", fullName: "ပန်းတောင်းမြို့နယ်", state: "7", district: "ပြည်ခရိုင်" },
+                { code: "သကန(နိုင်)", fullName: "သဲကုန်းမြို့နယ်", state: "7", district: "ပြည်ခရိုင်" },
+                { code: "ပခတ(နိုင်)", fullName: "ပေါက်ခေါင်းမြို့နယ်", state: "7", district: "ပြည်ခရိုင်" },
+                { code: "ပတတ(နိုင်)", fullName: "ပေါင်းတည်မြို့နယ်", state: "7", district: "ပြည်ခရိုင်" },
+                { code: "ရတန(နိုင်)", fullName: "ရွှေတောင်မြို့နယ်", state: "7", district: "ပြည်ခရိုင်" },
+                { code: "သဝတ(နိုင်)", fullName: "သာယာဝတီမြို့နယ်", state: "7", district: "သာယာဝတီခရိုင်" },
+                { code: "မညန(နိုင်)", fullName: "မိုးညိုမြို့နယ်", state: "7", district: "သာယာဝတီခရိုင်" },
+                { code: "အဖန(နိုင်)", fullName: "အုတ်ဖိုမြို့နယ်", state: "7", district: "သာယာဝတီခရိုင်" },
+                { code: "လပတ(နိုင်)", fullName: "လက်ပံတန်းမြို့နယ်", state: "7", district: "သာယာဝတီခရိုင်" },
+                { code: "မလန(နိုင်)", fullName: "မင်းလှမြို့နယ်", state: "7", district: "သာယာဝတီခရိုင်" },
+                { code: "နတလ(နိုင်)", fullName: "နတ်တလင်းမြို့နယ်", state: "7", district: "သာယာဝတီခရိုင်" },
+                { code: "ဇကန(နိုင်)", fullName: "ဇီးကုန်းမြို့နယ်", state: "7", district: "သာယာဝတီခရိုင်" },
+                { code: "ကပက(နိုင်)", fullName: "ကြိုပင်ကောက်မြို့နယ်", state: "7", district: "သာယာဝတီခရိုင်" },
+                { code: "တငန(နိုင်)", fullName: "တောင်ငူမြို့နယ်", state: "7", district: "တောင်ငူခရိုင်" },
+                { code: "ထတပ(နိုင်)", fullName: "ထန်းတပင်မြို့နယ်", state: "7", district: "တောင်ငူခရိုင်" },
+                { code: "ဖမန(နိုင်)", fullName: "ဖြူးမြို့နယ်", state: "7", district: "တောင်ငူခရိုင်" },
+                { code: "အတန(နိုင်)", fullName: "အုတ်တွင်းမြို့နယ်", state: "7", district: "တောင်ငူခရိုင်" },
+                { code: "ရတရ(နိုင်)", fullName: "ရေတာရှည်မြို့နယ်", state: "7", district: "တောင်ငူခရိုင်" },
+                { code: "ကကန(နိုင်)", fullName: "ကျောက်ကြီးမြို့နယ်", state: "7", district: "တောင်ငူခရိုင်" },
+                
+                // မကွေးတိုင်းဒေသကြီး
+                { code: "မကန(နိုင်)", fullName: "မကွေးမြို့နယ်", state: "8", district: "မကွေးခရိုင်" },
+                { code: "နမန(နိုင်)", fullName: "နတ်မောက်မြို့နယ်", state: "8", district: "မကွေးခရိုင်" },
+                { code: "မသန(နိုင်)", fullName: "မြိုသစ်မြို့နယ်", state: "8", district: "မကွေးခရိုင်" },
+                { code: "တတက(နိုင်)", fullName: "တောင်တွင်းကြီးမြို့နယ်", state: "8", district: "မကွေးခရိုင်" },
+                { code: "ရနခ(နိုင်)", fullName: "ရေနံချောင်းမြို့နယ်", state: "8", district: "မကွေးခရိုင်" },
+                { code: "ခမန(နိုင်)", fullName: "ချောက်မြို့နယ်", state: "8", district: "မကွေးခရိုင်" },
+                { code: "မဘန(နိုင်)", fullName: "မင်းဘူး(စကု)မြို့နယ်", state: "8", district: "မင်းဘူးခရိုင်" },
+                { code: "ပဖန(နိုင်)", fullName: "ပွင့်ဖြူမြို့နယ်", state: "8", district: "မင်းဘူးခရိုင်" },
+                { code: "ငဖန(နိုင်)", fullName: "ငဖဲမြို့နယ်", state: "8", district: "မင်းဘူးခရိုင်" },
+                { code: "စလန(နိုင်)", fullName: "စလင်းမြို့နယ်", state: "8", district: "မင်းဘူးခရိုင်" },
+                { code: "စတရ(နိုင်)", fullName: "စေတုတ္တရာမြို့နယ်", state: "8", district: "မင်းဘူးခရိုင်" },
+                { code: "ဂဂန(နိုင်)", fullName: "ဂန့်ဂေါမြို့နယ်", state: "8", district: "ဂန့်ဂေါခရိုင်" },
+                { code: "ထလန(နိုင်)", fullName: "ထီးလင်းမြို့နယ်", state: "8", district: "ဂန့်ဂေါခရိုင်" },
+                { code: "ဆမန(နိုင်)", fullName: "ဆောမြို့နယ်", state: "8", district: "ဂန့်ဂေါခရိုင်" },
+                { code: "သရန(နိုင်)", fullName: "သရက်မြို့နယ်", state: "8", district: "သရက်ခရိုင်" },
+                { code: "ဆပဝ(နိုင်)", fullName: "ဆင်ပေါင်ဝဲမြို့နယ်", state: "8", district: "သရက်ခရိုင်" },
+                { code: "မတန(နိုင်)", fullName: "မင်းတုန်းမြို့နယ်", state: "8", district: "သရက်ခရိုင်" },
+                { code: "အလန(နိုင်)", fullName: "အောင်လံမြို့နယ်", state: "8", district: "သရက်ခရိုင်" },
+                { code: "မလန(နိုင်)", fullName: "မင်းလှမြို့နယ်", state: "8", district: "သရက်ခရိုင်" },
+                { code: "ကမန(နိုင်)", fullName: "ကံမမြို့နယ်", state: "8", district: "သရက်ခရိုင်" },
+                { code: "ပခက(နိုင်)", fullName: "ပခုက္ကူမြို့နယ်", state: "8", district: "ပခုက္ကူခရိုင်" },
+                { code: "ဆဖန(နိုင်)", fullName: "ဆိပ်ဖြူမြို့နယ်", state: "8", district: "ပခုက္ကူခရိုင်" },
+                { code: "ပမန(နိုင်)", fullName: "ပေါက်မြို့နယ်", state: "8", district: "ပခုက္ကူခရိုင်" },
+                { code: "မမန(နိုင်)", fullName: "မြိုင်မြို့နယ်", state: "8", district: "ပခုက္ကူခရိုင်" },
+                { code: "ရစက(နိုင်)", fullName: "ရေစကြိုမြို့နယ်", state: "8", district: "ပခုက္ကူခရိုင်" },
+                
+                // မန္တလေးတိုင်းဒေသကြီး
+                { code: "အမဇ(နိုင်)", fullName: "အောင်မြေသာဇံမြို့နယ်", state: "9", district: "မန္တလေးခရိုင်" },
+                { code: "ခအဇ(နိုင်)", fullName: "ချမ်းအေးသာဇံမြို့နယ်", state: "9", district: "မန္တလေးခရိုင်" },
+                { code: "ခမစ(နိုင်)", fullName: "ချမ်းမြသာစည်မြို့နယ်", state: "9", district: "မန္တလေးခရိုင်" },
+                { code: "မဟမ(နိုင်)", fullName: "မဟာအောင်မြေမြို့နယ်", state: "9", district: "မန္တလေးခရိုင်" },
+                { code: "ပကခ(နိုင်)", fullName: "ပြည်ကြီးတံခွန်မြို့နယ်", state: "9", district: "မန္တလေးခရိုင်" },
+                { code: "ပသက(နိုင်)", fullName: "ပုသိမ်ကြီးမြို့နယ်", state: "9", district: "မန္တလေးခရိုင်" },
+                { code: "အမရ(နိုင်)", fullName: "အမရပူရမြို့နယ်", state: "9", district: "မန္တလေးခရိုင်" },
+                { code: "ကဆန(နိုင်)", fullName: "ကျောက်ဆည်မြို့နယ်", state: "9", district: "ကျောက်ဆည်ခရိုင်" },
+                { code: "မသန(နိုင်)", fullName: "မြစ်သားမြို့နယ်", state: "9", district: "ကျောက်ဆည်ခရိုင်" },
+                { code: "စကတ(နိုင်)", fullName: "စဉ့်ကိုင်မြို့နယ်", state: "9", district: "ကျောက်ဆည်ခရိုင်" },
+                { code: "တတဥ(နိုင်)", fullName: "တံတားဦးမြို့နယ်", state: "9", district: "ကျောက်ဆည်ခရိုင်" },
+                { code: "မထလ(နိုင်)", fullName: "မိတ္ထီလာမြို့နယ်", state: "9", district: "မိတ္ထီလာခရိုင်" },
+                { code: "မလန(နိုင်)", fullName: "မလှိုင်မြို့နယ်", state: "9", district: "မိတ္ထီလာခရိုင်" },
+                { code: "သစန(နိုင်)", fullName: "သာစည်မြို့နယ်", state: "9", district: "မိတ္ထီလာခရိုင်" },
+                { code: "ဝတန(နိုင်)", fullName: "ဝမ်းတွင်းမြို့နယ်", state: "9", district: "မိတ္ထီလာခရိုင်" },
+                { code: "မခန(နိုင်)", fullName: "မြင်းခြံမြို့နယ်", state: "9", district: "မြင်းခြံခရိုင်" },
+                { code: "နထက(နိုင်)", fullName: "နွားထိုးကြီးမြို့နယ်", state: "9", district: "မြင်းခြံခရိုင်" },
+                { code: "ငဇန(နိုင်)", fullName: "ငါန်းဇွန်မြို့နယ်", state: "9", district: "မြင်းခြံခရိုင်" },
+                { code: "တသန(နိုင်)", fullName: "တောင်သာမြို့နယ်", state: "9", district: "မြင်းခြံခရိုင်" },
+                { code: "ညဥန(နိုင်)", fullName: "ညောင်ဦးမြို့နယ်", state: "9", district: "ညောင်ဦးခရိုင်" },
+                { code: "ကပတ(နိုင်)", fullName: "ကျောက်ပန်းတောင်းမြို့နယ်", state: "9", district: "ညောင်ဦးခရိုင်" },
+                { code: "မမန(နိုင်)", fullName: "ပြင်ဦးလွင်မြို့နယ်", state: "9", district: "ပြင်ဦးလွင်ခရိုင်" },
+                { code: "မကန(နိုင်)", fullName: "မိုးကုတ်မြို့နယ်", state: "9", district: "ပြင်ဦးလွင်ခရိုင်" },
+                { code: "စကန(နိုင်)", fullName: "စဉ့်ကူးမြို့နယ်", state: "9", district: "ပြင်ဦးလွင်ခရိုင်" },
+                { code: "သပက(နိုင်)", fullName: "သပိတ်ကျင်းမြို့နယ်", state: "9", district: "ပြင်ဦးလွင်ခရိုင်" },
+                { code: "မတရ(နိုင်)", fullName: "မတ္တရာမြို့နယ်", state: "9", district: "ပြင်ဦးလွင်ခရိုင်" },
+                { code: "ရမသ(နိုင်)", fullName: "ရမည်းသင်းမြို့နယ်", state: "9", district: "ရမည်းသင်းခရိုင်" },
+                { code: "ပဘန(နိုင်)", fullName: "ပျော်ဘွယ်မြို့နယ်", state: "9", district: "ရမည်းသင်းခရိုင်" },
+                
+                // မွန်ပြည်နယ်
+                { code: "မလမ(နိုင်)", fullName: "မော်လမြိုင်မြို့နယ်", state: "10", district: "မော်လမြိုင်ခရိုင်" },
+                { code: "ရမန(နိုင်)", fullName: "ရေးမြို့နယ်", state: "10", district: "မော်လမြိုင်ခရိုင်" },
+                { code: "ခဆန(နိုင်)", fullName: "ချောင်းဆုံမြို့နယ်", state: "10", district: "မော်လမြိုင်ခရိုင်" },
+                { code: "ကမရ(နိုင်)", fullName: "ကျိုက်မရောမြို့နယ်", state: "10", district: "မော်လမြိုင်ခရိုင်" },
+                { code: "မဒန(နိုင်)", fullName: "မုဒုံမြို့နယ်", state: "10", district: "မော်လမြိုင်ခရိုင်" },
+                { code: "သဖရ(နိုင်)", fullName: "သံဖြူဇရပ်မြို့နယ်", state: "10", district: "မော်လမြိုင်ခရိုင်" },
+                { code: "သထန(နိုင်)", fullName: "သထုံမြို့နယ်", state: "10", district: "သထုံခရိုင်" },
+                { code: "ဘလန(နိုင်)", fullName: "ဘီးလင်းမြို့နယ်", state: "10", district: "သထုံခရိုင်" },
+                { code: "ကထန(နိုင်)", fullName: "ကျိုက်ထိုမြို့နယ်", state: "10", district: "သထုံခရိုင်" },
+                { code: "ပမန(နိုင်)", fullName: "ပေါင်မြို့နယ်", state: "10", district: "သထုံခရိုင်" },
+                
+                // ရခိုင်ပြည်နယ်
+                { code: "စတန(နိုင်)", fullName: "စစ်တွေမြို့နယ်", state: "11", district: "စစ်တွေခရိုင်" },
+                { code: "ပတန(နိုင်)", fullName: "ပေါက်တောမြို့နယ်", state: "11", district: "စစ်တွေခရိုင်" },
+                { code: "ပဏတ(နိုင်)", fullName: "ပုဏ္ဏားကျွန်းမြို့နယ်", state: "11", district: "စစ်တွေခရိုင်" },
+                { code: "ရသတ(နိုင်)", fullName: "ရသေ့တောင်မြို့နယ်", state: "11", district: "စစ်တွေခရိုင်" },
+                { code: "ကဖန(�ိုင်)", fullName: "ကျောက်ဖြူမြို့နယ်", state: "11", district: "ကျောက်ဖြူခရိုင်" },
+                { code: "ရဗန(နိုင်)", fullName: "ရမ်းဗြဲမြို့နယ်", state: "11", district: "ကျောက်ဖြူခရိုင်" },
+                { code: "အမန(နိုင်)", fullName: "အမ်းမြို့နယ်", state: "11", district: "ကျောက်ဖြူခရိုင်" },
+                { code: "မအန(နိုင်)", fullName: "မာန်အောင်မြို့နယ်", state: "11", district: "ကျောက်ဖြူခရိုင်" },
+                { code: "မဥန(နိုင်)", fullName: "မြောက်ဦးမြို့နယ်", state: "11", district: "မြောက်ဦးခရိုင်" },
+                { code: "မပတ(နိုင်)", fullName: "မြေပုံမြို့နယ်", state: "11", district: "မြောက်ဦးခရိုင်" },
+                { code: "မပန(နိုင်)", fullName: "မင်းပြားမြို့နယ်", state: "11", district: "မြောက်ဦးခရိုင်" },
+                { code: "ကတန(နိုင်)", fullName: "ကျောက်တော်မြို့နယ်", state: "11", district: "မြောက်ဦးခရိုင်" },
+                { code: "သတန(နိုင်)", fullName: "သံတွဲမြို့နယ်", state: "11", district: "သံတွဲခရိုင်" },
+                { code: "တကန(နိုင်)", fullName: "တောင်ကုတ်မြို့နယ်", state: "11", district: "သံတွဲခရိုင်" },
+                { code: "ဂမန(နိုင်)", fullName: "ဂွမြို့နယ်", state: "11", district: "သံတွဲခရိုင်" },
+                { code: "မတန(နိုင်)", fullName: "မောင်တောမြို့နယ်", state: "11", district: "မောင်တောခရိုင်" },
+                { code: "ဘသတ(နိုင်)", fullName: "ဘူးသီးတောင်မြို့နယ်", state: "11", district: "မောင်တောခရိုင်" },
+                
+                // ရန်ကုန်တိုင်းဒေသကြီး
+                { code: "တမန(နိုင်)", fullName: "တာမွေမြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "ဥကတ(နိုင်)", fullName: "တောင်ဥက္ကလာပမြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "ဒဂဆ(နိုင်)", fullName: "ဒဂုံမြိုသစ်(ဆိပ်ကမ်း)မြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "ဒဂတ(နိုင်)", fullName: "ဒဂုံမြိုသစ်(တောင်ပိုင်း)မြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "ဒဂမ(နိုင်)", fullName: "ဒဂုံမြိုသစ်(မြောက်ပိုင်း)မြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "ဒဂရ(နိုင်)", fullName: "ဒဂုံမြိုသစ်(အရှေ့ပိုင်း)မြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "ဒပန(နိုင်)", fullName: "ဒေါပုံမြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "ပဇတ(နိုင်)", fullName: "ပုဇွန်တောင်မြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "ဗတထ(နိုင်)", fullName: "ဗိုလ်တထောင်မြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "ဥကမ(နိုင်)", fullName: "မြောက်ဥက္ကလာပမြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "ရကန(နိုင်)", fullName: "ရန်ကင်းမြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "သဃက(နိုင်)", fullName: "သင်္ဃန်းကျွန်းမြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "သကတ(နိုင်)", fullName: "သာကေတမြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "မဂတ(နိုင်)", fullName: "မင်္ဂလာတောင်ညွန့်မြို့နယ်", state: "12", district: "ရန်ကုန်အရှေ့ပိုင်းခရိုင်" },
+                { code: "တကန(နိုင်)", fullName: "တိုက်ကြီးမြို့နယ်", state: "12", district: "ရန်ကုန်မြောက်ပိုင်းခရိုင်" },
+                { code: "ထတပ(နိုင်)", fullName: "ထန်းတပင်မြို့နယ်", state: "12", district: "ရန်ကုန်မြောက်ပိုင်းခရိုင်" },
+                { code: "မဂဒ(နိုင်)", fullName: "မင်္ဂလာဒုံမြို့နယ်", state: "12", district: "ရန်ကုန်မြောက်ပိုင်းခရိုင်" },
+                { code: "မဘန(နိုင်)", fullName: "မှော်ဘီမြို့နယ်", state: "12", district: "ရန်ကုန်မြောက်ပိုင်းခရိုင်" },
+                { code: "ရပသ(နိုင်)", fullName: "ရွှေပြည်သာမြို့နယ်", state: "12", district: "ရန်ကုန်မြောက်ပိုင်းခရိုင်" },
+                { code: "လကန(နိုင်)", fullName: "လှည်းကူးမြို့နယ်", state: "12", district: "ရန်ကုန်မြောက်ပိုင်းခရိုင်" },
+                { code: "လသယ(နိုင်)", fullName: "လှိုင်သာယာမြို့နယ်", state: "12", district: "ရန်ကုန်မြောက်ပိုင်းခရိုင်" },
+                { code: "အစန(နိုင်)", fullName: "အင်းစိန်မြို့နယ်", state: "12", district: "ရန်ကုန်မြောက်ပိုင်းခရိုင်" },
+                { code: "ကတန(နိုင်)", fullName: "ကျောက်တန်းမြို့နယ်", state: "12", district: "ရန်ကုန်တောင်ပိုင်းခရိုင်" },
+                { code: "ကခက(နိုင်)", fullName: "ကွမ်းခြံကုန်းမြို့နယ်", state: "12", district: "ရန်ကုန်တောင်ပိုင်းခရိုင်" },
+                { code: "ကကက(နိုင်)", fullName: "ကိုကိုးကျွန်းမြို့နယ်", state: "12", district: "ရန်ကုန်တောင်ပိုင်းခရိုင်" },
+                { code: "ကမန(နိုင်)", fullName: "ကော့မှူးမြို့နယ်", state: "12", district: "ရန်ကုန်တောင်ပိုင်းခရိုင်" },
+                { code: "ခရန(နိုင်)", fullName: "ခရမ်းမြို့နယ်", state: "12", district: "ရန်ကုန်တောင်ပိုင်းခရိုင်" },
+                { code: "ဆကခ(နိုင်)", fullName: "ဆိပ်ကြီးခနောင်တိုမြို့နယ်", state: "12", district: "ရန်ကုန်တောင်ပိုင်းခရိုင်" },
+                { code: "တတန(နိုင်)", fullName: "တွံတေးမြို့နယ်", state: "12", district: "ရန်ကုန်တောင်ပိုင်းခရိုင်" },
+                { code: "ဒလန(နိုင်)", fullName: "ဒလမြို့နယ်", state: "12", district: "ရန်ကုန်တောင်ပိုင်းခရိုင်" },
+                { code: "သလန(နိုင်)", fullName: "သန်လျင်မြို့နယ်", state: "12", district: "ရန်ကုန်တောင်ပိုင်းခရိုင်" },
+                { code: "သခန(နိုင်)", fullName: "သုံးခွမြို့နယ်", state: "12", district: "ရန်ကုန်တောင်ပိုင်းခရိုင်" },
+                { code: "ကမရ(နိုင်)", fullName: "ကမာရွတ်မြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                { code: "ကတတ(နိုင်)", fullName: "ကျောက်တံတားမြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                { code: "ကမတ(နိုင်)", fullName: "ကြည့်မြင်တိုင်မြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                { code: "စခန(နိုင်)", fullName: "စမ်းချောင်းမြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                { code: "ဆကန(နိုင်)", fullName: "ဆိပ်ကမ်းမြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                { code: "ဒဂန(နိုင်)", fullName: "ဒဂုံမြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                { code: "ဗဟန(နိုင်)", fullName: "ဗဟန်းမြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                { code: "မရက(နိုင်)", fullName: "မရမ်းကုန်းမြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                { code: "လမတ(နိုင်)", fullName: "လမ်းမတော်မြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                { code: "လသန(နိုင်)", fullName: "လသာမြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                { code: "လမန(နိုင်)", fullName: "လှိုင်မြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                { code: "အလန(နိုင်)", fullName: "အလုံမြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                { code: "ပဘတ(နိုင်)", fullName: "ပန်းဘဲတန်းမြို့နယ်", state: "12", district: "ရန်ကုန်အနောက်ပိုင်းခရိုင်" },
+                
+                // ရှမ်းပြည်နယ်
+                { code: "တကန(နိုင်)", fullName: "တောင်ကြီးမြို့နယ်", state: "13", district: "တောင်ကြီးခရိုင်" },
+                { code: "ဆဆန(နိုင်)", fullName: "ဆီဆိုင်မြို့နယ်", state: "13", district: "တောင်ကြီးခရိုင်" },
+                { code: "ကလန(နိုင်)", fullName: "ကလောမြို့နယ်", state: "13", district: "တောင်ကြီးခရိုင်" },
+                { code: "ရစန(နိုင်)", fullName: "ရပ်စောက်မြို့နယ်", state: "13", district: "တောင်ကြီးခရိုင်" },
+                { code: "ညရန(နိုင်)", fullName: "ညောင်ရွှေမြို့နယ်", state: "13", district: "တောင်ကြီးခရိုင်" },
+                { code: "ပတယ(နိုင်)", fullName: "ပင်းတယမြို့နယ်", state: "13", district: "တောင်ကြီးခရိုင်" },
+                { code: "ပလန(နိုင်)", fullName: "ပင်လောင်းမြို့နယ်", state: "13", district: "တောင်ကြီးခရိုင်" },
+                { code: "ရငန(နိုင်)", fullName: "ရွာငံမြို့နယ်", state: "13", district: "တောင်ကြီးခရိုင်" },
+                { code: "ဖခန(နိုင်)", fullName: "ဖယ်ခုံမြို့နယ်", state: "13", district: "တောင်ကြီးခရိုင်" },
+                { code: "ဟပန(နိုင်)", fullName: "ဟိုပုံးမြို့နယ်", state: "13", district: "တောင်ကြီးခရိုင်" },
+                { code: "ကတန(နိုင်)", fullName: "ကျိုင်းတုံမြို့နယ်", state: "13", district: "ကျိုင်းတုံခရိုင်" },
+                { code: "မခန(နိုင်)", fullName: "မိုင်းခတ်မြို့နယ်", state: "13", district: "ကျိုင်းတုံခရိုင်" },
+                { code: "မယန(နိုင်)", fullName: "မိုင်းယန်းမြို့နယ်", state: "13", district: "ကျိုင်းတုံခရိုင်" },
+                { code: "မပတ(နိုင်)", fullName: "မိုင်းပျဉ်းမြို့နယ်", state: "13", district: "ကျိုင်းတုံခရိုင်" },
+                { code: "တခလ(နိုင်)", fullName: "တာချီလိတ်မြို့နယ်", state: "13", district: "တာချီလိတ်ခရိုင်" },
+                { code: "မဖန(နိုင်)", fullName: "မိုင်းဖြတ်မြို့နယ်", state: "13", district: "တာချီလိတ်ခရိုင်" },
+                { code: "မယတ(နိုင်)", fullName: "မိုင်းယောင်းမြို့နယ်", state: "13", district: "တာချီလိတ်ခရိုင်" },
+                { code: "ပယန(နိုင်)", fullName: "မက်မန်းမြို့နယ်", state: "13", district: "မက်မန်းခရိုင်" },
+                { code: "မမတ(နိုင်)", fullName: "မိုးမိတ်မြို့နယ်", state: "13", district: "မိုးမိတ်ခရိုင်" },
+                { code: "မဘန(နိုင်)", fullName: "မဘိမ်းမြို့နယ်", state: "13", district: "မိုးမိတ်ခရိုင်" },
+                { code: "မဆန(နိုင်)", fullName: "မိုင်းဆတ်မြို့နယ်", state: "13", district: "မိုင်းဆတ်ခရိုင်" },
+                { code: "မတန(နိုင်)", fullName: "မိုင်းတုံမြို့နယ်", state: "13", district: "မိုင်းဆတ်ခရိုင်" },
+                { code: "မဆတ(နိုင်)", fullName: "မူဆယ်မြို့နယ်", state: "13", district: "မူဆယ်ခရိုင်" },
+                { code: "ကခန(နိုင်)", fullName: "ကွတ်ခိုင်မြို့နယ်", state: "13", district: "မူဆယ်ခရိုင်" },
+                { code: "နခန(နိုင်)", fullName: "နမ့်ခမ်းမြို့နယ်", state: "13", district: "မူဆယ်ခရိုင်" },
+                { code: "လခတ(နိုင်)", fullName: "လင်းခေးမြို့နယ်", state: "13", district: "လင်းခေးခရိုင်" },
+                { code: "မနန(နိုင်)", fullName: "မိုးနဲမြို့နယ်", state: "13", district: "လင်းခေးခရိုင်" },
+                { code: "မပန(နိုင်)", fullName: "မိုင်းပန်မြို့နယ်", state: "13", district: "လင်းခေးခရိုင်" },
+                { code: "မမန(နိုင်)", fullName: "မောက်မယ်မြို့နယ်", state: "13", district: "လင်းခေးခရိုင်" },
+                { code: "လလန(နိုင်)", fullName: "လွိုင်လင်မြို့နယ်", state: "13", district: "လွိုင်လင်ခရိုင်" },
+                { code: "ကဟန(နိုင်)", fullName: "ကွန်ဟိန်းမြို့နယ်", state: "13", district: "လွိုင်လင်ခရိုင်" },
+                { code: "လခန(နိုင်)", fullName: "လဲချားမြို့နယ်", state: "13", district: "လွိုင်လင်ခရိုင်" },
+                { code: "မကန(နိုင်)", fullName: "မိုင်းကိုင်မြို့နယ်", state: "13", district: "လွိုင်လင်ခရိုင်" },
+                { code: "မရန(နိုင်)", fullName: "မိုင်းရှူးမြို့နယ်", state: "13", district: "လွိုင်လင်ခရိုင်" },
+                { code: "ကသန(နိုင်)", fullName: "�ျေးသီးမြို့နယ်", state: "13", district: "လွိုင်လင်ခရိုင်" },
+                { code: "နစန(နိုင်)", fullName: "နမ့်စန်မြို့နယ်", state: "13", district: "လွိုင်လင်ခရိုင်" },
+                { code: "လရန(နိုင်)", fullName: "လားရှိုးမြို့နယ်", state: "13", district: "လားရှိုးခရိုင်" },
+                { code: "သနန(နိုင်)", fullName: "သိန္နီမြို့နယ်", state: "13", district: "လားရှိုးခရိုင်" },
+                { code: "ကလန(နိုင်)", fullName: "ကွမ်းလုံမြို့နယ်", state: "13", district: "လားရှိုးခရိုင်" },
+                { code: "မရတ(နိုင်)", fullName: "မိုင်းရယ်မြို့နယ်", state: "13", district: "လားရှိုးခရိုင်" },
+                { code: "တယန(�ိုင်)", fullName: "တန့်ယန်းမြို့နယ်", state: "13", district: "လားရှိုးခရိုင်" },
+                { code: "ကမန(နိုင်)", fullName: "ကျောက်မဲမြို့နယ်", state: "13", district: "ကျောက်မဲခရိုင်" },
+                { code: "သပန(နိုင်)", fullName: "သီပေါမြို့နယ်", state: "13", district: "ကျောက်မဲခရိုင်" },
+                { code: "မတတ(နိုင်)", fullName: "မန်တုံမြို့နယ်", state: "13", district: "ကျောက်မဲခရိုင်" },
+                { code: "နဆန(နိုင်)", fullName: "နမ့်ဆန်မြို့နယ်", state: "13", district: "ကျောက်မဲခရိုင်" },
+                { code: "နမတ(နိုင်)", fullName: "နမ္မတူမြို့နယ်", state: "13", district: "ကျောက်မဲခရိုင်" },
+                { code: "နခတ(နိုင်)", fullName: "နောင်ချိုမြို့နယ်", state: "13", district: "ကျောက်မဲခရိုင်" },
+                { code: "လကန(နိုင်)", fullName: "လောက်ကိုင်မြို့နယ်", state: "13", district: "လောက်ကိုင်ခရိုင်" },
+                { code: "ကကန(နိုင်)", fullName: "ကုန်းကြမ်းမြို့နယ်", state: "13", district: "လောက်ကိုင်ခရိုင်" },
+                { code: "ဟပန(နိုင်)", fullName: "ဟိုပန်မြို့နယ်", state: "13", district: "ဟိုပန်ခရိုင်" },
+                
+                // ဧရာဝတီတိုင်းဒေသကြီး
+                { code: "ပသန(နိုင်)", fullName: "ပုသိမ်မြို့နယ်", state: "14", district: "ပုသိမ်ခရိုင်" },
+                { code: "ကကထ(နိုင်)", fullName: "ကန်ကြီးထောင့်မြို့နယ်", state: "14", district: "ပုသိမ်ခရိုင်" },
+                { code: "ကပန(နိုင်)", fullName: "ကျုံပျော်မြို့နယ်", state: "14", district: "ပုသိမ်ခရိုင်" },
+                { code: "ငပတ(နိုင်)", fullName: "ငပုတောမြို့နယ်", state: "14", district: "ပုသိမ်ခရိုင်" },
+                { code: "သပန(နိုင်)", fullName: "သာပေါင်းမြို့နယ်", state: "14", district: "ပုသိမ်ခရိုင်" },
+                { code: "ကကန(နိုင်)", fullName: "ကျောင်းကုန်းမြို့နယ်", state: "14", district: "ပုသိမ်ခရိုင်" },
+                { code: "ရကန(နိုင်)", fullName: "ရေကြည်မြို့နယ်", state: "14", district: "ပုသိမ်ခရိုင်" },
+                { code: "မအပ(နိုင်)", fullName: "မအူပင်မြို့နယ်", state: "14", district: "မအူပင်ခရိုင်" },
+                { code: "ဓနဖ(နိုင်)", fullName: "ဓနုဖြူမြို့နယ်", state: "14", district: "မအူပင်ခရိုင်" },
+                { code: "ပတန(နိုင်)", fullName: "ပန်းတနော်မြို့နယ်", state: "14", district: "မအူပင်ခရိုင်" },
+                { code: "ညတန(နိုင်)", fullName: "ညောင်တုန်းမြို့နယ်", state: "14", district: "မအူပင်ခရိုင်" },
+                { code: "ဟသတ(နိုင်)", fullName: "ဟင်္သာတမြို့နယ်", state: "14", district: "ဟင်္သာတခရိုင်" },
+                { code: "ဇလန(နိုင်)", fullName: "ဇလွန်မြို့နယ်", state: "14", district: "ဟင်္သာတခရိုင်" },
+                { code: "ကခန(နိုင်)", fullName: "ကြံခင်းမြို့နယ်", state: "14", district: "ဟင်္သာတခရိုင်" },
+                { code: "မအန(နိုင်)", fullName: "မြန်အောင်မြို့နယ်", state: "14", district: "ဟင်္သာတခရိုင်" },
+                { code: "အဂပ(နိုင်)", fullName: "အင်္ဂပူမြို့နယ်", state: "14", district: "ဟင်္သာတခရိုင်" },
+                { code: "လမန(နိုင်)", fullName: "လေးမျက်နှာမြို့နယ်", state: "14", district: "ဟင်္သာတခရိုင်" },
+                { code: "မမန(နိုင်)", fullName: "မြောင်းမြမြို့နယ်", state: "14", district: "မြောင်းမြခရိုင်" },
+                { code: "ဝခမ(နိုင်)", fullName: "ဝါးခယ်မမြို့နယ်", state: "14", district: "မြောင်းမြခရိုင်" },
+                { code: "အမန(နိုင်)", fullName: "အိမ်မဲမြို့နယ်", state: "14", district: "မြောင်းမြခရိုင်" },
+                { code: "ဖပန(နိုင်)", fullName: "ဖျာပုံမြို့နယ်", state: "14", district: "ဖျာပုံခရိုင်" },
+                { code: "ဘကလ(နိုင်)", fullName: "ဘိုကလေးမြို့နယ်", state: "14", district: "ဖျာပုံခရိုင်" },
+                { code: "ဒဒရ(နိုင်)", fullName: "ဒေးဒရဲမြို့နယ်", state: "14", district: "ဖျာပုံခရိုင်" },
+                { code: "ကလန(နိုင်)", fullName: "ကျိုက်လတ်မြို့နယ်", state: "14", district: "ဖျာပုံခရိုင်" },
+                { code: "လပတ(နိုင်)", fullName: "လပွတ္တာမြို့နယ်", state: "14", district: "လပွတ္တာခရိုင်" },
+                { code: "မမက(နိုင်)", fullName: "မော်လမြိုင်ကျွန်းမြို့နယ်", state: "14", district: "လပွတ္တာခရိုင်" },
+                
+                // နေပြည်တော်
+                { code: "ဒခသ(နိုင်)", fullName: "ဒက္ခိဏသီရိမြို့နယ်", state: "9N", district: "ဒက္ခိဏခရိုင်" },
+                { code: "လဝန(နိုင်)", fullName: "လယ်ဝေးမြို့နယ်", state: "9N", district: "ဒက္ခိဏခရိုင်" },
+                { code: "ပမန(နိုင်)", fullName: "ပျဉ်းမနားမြို့နယ်", state: "9N", district: "ဒက္ခိဏခရိုင်" },
+                { code: "ဇဗသ(နိုင်)", fullName: "ဇမ္ဗူသီရိမြို့နယ်", state: "9N", district: "ဒက္ခိဏခရိုင်" },
+                { code: "ဥတသ(နိုင်)", fullName: "ဥတ္တရသီရိမြို့နယ်", state: "9N", district: "ဥတ္တရခရိုင်" },
+                { code: "ပဗသ(နိုင်)", fullName: "ပုဗ္ဗသီရိမြို့နယ်", state: "9N", district: "ဥတ္တရခရိုင်" },
+                { code: "တကန(နိုင်)", fullName: "တပ်ကုန်းမြို့နယ်", state: "9N", district: "ဥတ္တရခရိုင်" },
+                { code: "ဇယသ(နိုင်)", fullName: "ဇေယျာသီရိမြို့နယ်", state: "9N", district: "ဥတ္တရခရိုင်" }
+            ]
+        };
+        
+        // DOM အစိတ်အပိုင်းများ
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const resultCard = document.getElementById('resultCard');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultDetails = document.getElementById('resultDetails');
+        const resultCode = document.getElementById('resultCode');
+        const resultLocation = document.getElementById('resultLocation');
+        const resultExtra = document.getElementById('resultExtra');
+        const infoCard = document.getElementById('infoCard');
+        const infoTitle = document.getElementById('infoTitle');
+        const infoDetails = document.getElementById('infoDetails');
+        const exampleTags = document.querySelectorAll('.example-tag');
+        
+        // ရှာဖွေမှုလုပ်ဆောင်ချက်
+        function performSearch(query) {
+            query = query.trim();
+            
+            // ရလဒ်ကဒ်ကို ပုံမှန်အနေအထားပြောင်း
+            resultCard.style.display = 'block';
+            infoCard.style.display = 'none';
+            
+            // စာသားရှင်းလင်းခြင်း
+            resultTitle.textContent = 'ရလဒ်';
+            resultDetails.textContent = '';
+            resultCode.textContent = '';
+            resultLocation.textContent = '';
+            resultExtra.textContent = '';
+            
+            // ဘာမှမရိုက်ထည့်ထားရင်
+            if (!query) {
+                resultDetails.textContent = 'ကျေးဇူးပြု၍ နံပါတ် သို့မဟုတ် အတိုကောက်ကို ရိုက်ထည့်ပါ။';
+                return;
+            }
+            
+            // နိုင် အတွက် အထူးကိစ္စ
+            if (query === 'နိုင်' || query === 'နိုင်ငံသား') {
+                showNRCInfo();
+                return;
+            }
+            
+            // ဂဏန်းတစ်လုံးသို့မဟုတ်နှစ်လုံးဖြစ်လျှင် (ပြည်နယ်/တိုင်းရှာခြင်း)
+            if (/^\d{1,2}$/.test(query)) {
+                const stateNum = parseInt(query);
+                if (data.states[stateNum]) {
+                    resultTitle.textContent = `ပြည်နယ်/တိုင်း: ${data.states[stateNum]}`;
+                    resultDetails.textContent = `နံပါတ် ${stateNum} သည် ${data.states[stateNum]} ကိုရည်ညွှန်းသည်။`;
+                    
+                    // ဆက်စပ်မြို့နယ်များကိုရှာရန်
+                    const relatedTownships = data.townships.filter(t => t.state === stateNum.toString());
+                    if (relatedTownships.length > 0) {
+                        resultExtra.textContent = `ဆက်စပ်မြို့နယ်များ (${relatedTownships.length} မြို့နယ်):`;
+                        relatedTownships.forEach(town => {
+                            resultExtra.textContent += ` ${town.fullName},`;
+                        });
+                        resultExtra.textContent = resultExtra.textContent.slice(0, -1); // နောက်ဆုံးကော်မာဖျက်
+                    }
+                } else {
+                    resultTitle.textContent = 'ရလဒ်မတွေ့ပါ';
+                    resultDetails.textContent = `နံပါတ် ${query} နှင့် ဆက်စပ်သော ပြည်နယ်/တိုင်း မရှိပါ။ (၁-၁၄ အတွင်းသာ ဖြစ်ရမည်)`;
+                }
+                return;
+            }
+            
+            // မြို့နယ်အတိုကောက်ရှာခြင်း
+            let found = false;
+            
+            // ပုံမှန်အတိုကောက်ရှာခြင်း (နိုင် ပါလျှင်)
+            let searchQuery = query;
+            if (!query.includes('(နိုင်)') && !query.endsWith('နိုင်')) {
+                searchQuery = query + '(နိုင်)';
+            }
+            
+            // အတိုကောက်နှင့်တူသောမြို့နယ်များကိုရှာခြင်း
+            const matchingTownships = data.townships.filter(town => 
+                town.code.includes(query) || town.code.includes(searchQuery) ||
+                town.fullName.includes(query)
+            );
+            
+            if (matchingTownships.length > 0) {
+                found = true;
+                
+                if (matchingTownships.length === 1) {
+                    // တစ်ခုတည်းတွေ့လျှင်
+                    const town = matchingTownships[0];
+                    const stateName = data.states[town.state] || "မသိ";
+                    
+                    resultTitle.textContent = town.fullName;
+                    resultDetails.textContent = `မြို့နယ်: ${town.fullName}`;
+                    resultCode.textContent = `အတိုကောက်: ${town.code}`;
+                    resultLocation.textContent = `တည်နေရာ: ${stateName}, ${town.district}`;
+                    
+                    // ဆက်စပ်ပြည်နယ်/တိုင်း အကြောင်း
+                    resultExtra.textContent = `ပြည်နယ်/တိုင်း: ${stateName}`;
+                } else {
+                    // တစ်ခုထက်ပိုတွေ့လျှင်
+                    resultTitle.textContent = `ရလဒ် ${matchingTownships.length} ခု တွေ့ပါသည်`;
+                    resultDetails.textContent = `"${query}" နှင့် ကိုက်ညီသော မြို့နယ်များ:`;
+                    
+                    matchingTownships.forEach((town, index) => {
+                        const stateName = data.states[town.state] || "မသိ";
+                        resultCode.textContent += `${index+1}. ${town.fullName} (${town.code}) - ${stateName}\n`;
+                    });
+                }
+            }
+            
+            // ပြည်နယ်အမည်နှင့်ရှာခြင်း
+            if (!found) {
+                for (const [key, value] of Object.entries(data.states)) {
+                    if (value.includes(query)) {
+                        found = true;
+                        resultTitle.textContent = `ပြည်နယ်/တိုင်း: ${value}`;
+                        resultDetails.textContent = `နံပါတ် ${key} - ${value}`;
+                        
+                        // ဆက်စပ်မြို့နယ်များ
+                        const relatedTownships = data.townships.filter(t => t.state === key);
+                        if (relatedTownships.length > 0) {
+                            resultExtra.textContent = `ဆက်စပ်မြို့နယ်များ (${relatedTownships.length} မြို့နယ်): `;
+                            relatedTownships.slice(0, 5).forEach(town => {
+                                resultExtra.textContent += ` ${town.fullName},`;
+                            });
+                            
+                            if (relatedTownships.length > 5) {
+                                resultExtra.textContent += ` ... (စုစုပေါင်း ${relatedTownships.length} မြို့နယ်)`;
+                            } else {
+                                resultExtra.textContent = resultExtra.textContent.slice(0, -1); // နောက်ဆုံးကော်မာဖျက်
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            
+            // ဘာမှမတွေ့လျှင်
+            if (!found) {
+                resultTitle.textContent = 'ရလဒ်မတွေ့ပါ';
+                resultDetails.textContent = `"${query}" နှင့် ဆက်စပ်သော အချက်အလက် မရှိပါ။ နံပါတ် (၁-၁၄) သို့မဟုတ် မြို့နယ်အတိုကောက်ကို ပြန်ရိုက်ကြည့်ပါ။`;
+            }
+        }
+        
+        // နိုင်ငံသားအကြောင်း အချက်အလက်ပြသခြင်း
+        function showNRCInfo() {
+            resultCard.style.display = 'none';
+            infoCard.style.display = 'block';
+            
+            infoTitle.textContent = 'နိုင်ငံသားစိစစ်ရေးကဒ် (NRC)';
+            infoDetails.innerHTML = `
+                <p><span class="highlight">နိုင်</span> သည် နိုင်ငံသားစိစစ်ရေးကဒ်ရှိ <strong>"နိုင်ငံသား"</strong> ကိုရည်ညွှန်းသည်။</p>
+                <p>နိုင်ငံသားစိစစ်ရေးကဒ် ရှေ့နံပါတ်ကို အောက်ပါအတိုင်း ဖတ်ရှုနိုင်ပါသည်:</p>
+                <ul>
+                    <li><strong>ပထမနံပါတ်</strong> - ပြည်နယ်/တိုင်း (၁-၁၄)</li>
+                    <li><strong>အတိုကောက်စာလုံးများ</strong> - မြို့နယ်</li>
+                    <li><strong>နောက်ဆုံး (နိုင်)</strong> - နိုင်ငံသား</li>
+                </ul>
+                <p>ဥပမာ: <strong>၁၂/ကမရ(နိုင်)</strong></p>
+                <ul>
+                    <li>၁၂ - ရန်ကုန်တိုင်းဒေသကြီး</li>
+                    <li>ကမရ - ကမာရွတ်မြို့နယ်</li>
+                    <li>(နိုင်) - နိုင်ငံသား</li>
+                </ul>
+                <p>ထို့နောက် ဂဏန်း ၆ လုံး (သို့) ၇ လုံး ပါရှိပါသည်။</p>
+            `;
+        }
+        
+        // ရှာဖွေခြင်းစတင်ရန်
+        searchBtn.addEventListener('click', () => {
+            performSearch(searchInput.value);
+        });
+        
+        // Enter နှိပ်လျှင်ရှာရန်
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch(searchInput.value);
+            }
+        });
+        
+        // နမူနာတပ်များအတွက် event listeners
+        exampleTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                const searchTerm = tag.getAttribute('data-search');
+                searchInput.value = searchTerm;
+                performSearch(searchTerm);
+            });
+        });
+        
+        // စာမျက်နှာတင်၍ပြသခြင်း
+        window.addEventListener('load', () => {
+            // နမူနာစာသားထည့်ခြင်း
+            searchInput.value = '';
+            resultCard.style.display = 'none';
+            infoCard.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
